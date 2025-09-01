@@ -1,0 +1,1975 @@
+<!--<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EfitTime - Sistema integral de administración para talleres de mecánica automotriz. Gestiona tareas, empleados, inventario y clientes de manera eficiente.">
+    <meta name="keywords" content="sistema talleres mecánica, administración automotriz, gestión empleados taller, software mecánica, EfitTime">
+    <meta name="author" content="EfitTime">
+    <meta property="og:title" content="EfitTime - Sistema de Administración de Talleres">
+    <meta property="og:description" content="Optimiza tu taller mecánico con nuestro sistema integral de gestión. Controla tareas, empleados, inventario y mantén a tus clientes informados.">
+    <meta property="og:type" content="website">
+    <title>EfitTime - Sistema de Administración de Talleres Mecánicos</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #0a1821;
+            --secondary-dark: #1a2b3d;
+            --accent-turquoise: #14b8a6;
+            --light-turquoise: #5eead4;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --gradient: linear-gradient(135deg, #0a1821 0%, #1a2b3d 100%);
+            --shadow: 0 4px 20px rgba(20, 184, 166, 0.1);
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--gradient);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 24, 33, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-turquoise);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 10px var(--accent-turquoise);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-turquoise);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-turquoise);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%2314b8a6" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--accent-turquoise), var(--light-turquoise));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            animation: slideUp 1s ease-out 0.3s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--accent-turquoise);
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            animation: slideUp 1s ease-out 0.6s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(20, 184, 166, 0.3);
+            background: var(--light-turquoise);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--accent-turquoise);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .feature-card {
+            background: rgba(26, 43, 61, 0.5);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-turquoise);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-turquoise);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            color: var(--accent-turquoise);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            background: rgba(26, 43, 61, 0.3);
+            padding: 5rem 0;
+        }
+
+        .benefits-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .benefits-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--accent-turquoise);
+        }
+
+        .benefits-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .benefits-list li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .benefits-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-turquoise);
+            font-weight: bold;
+        }
+
+        .benefits-image {
+            text-align: center;
+        }
+
+        .placeholder-img {
+            width: 100%;
+            height: 300px;
+            background: rgba(20, 184, 166, 0.1);
+            border: 2px dashed var(--accent-turquoise);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-turquoise);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .placeholder-img:hover {
+            background: rgba(20, 184, 166, 0.2);
+            transform: scale(1.02);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--accent-turquoise);
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            padding: 1rem;
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 10px;
+            background: rgba(26, 43, 61, 0.5);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-turquoise);
+            box-shadow: 0 0 10px rgba(20, 184, 166, 0.2);
+        }
+
+        .contact-form button {
+            padding: 1rem 2rem;
+            background: var(--accent-turquoise);
+            color: var(--primary-dark);
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form button:hover {
+            background: var(--light-turquoise);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(20, 184, 166, 0.2);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .benefits-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo">EfitTime</a>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#funcionalidades">Funcionalidades</a></li>
+                <li><a href="#beneficios">Beneficios</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>EfitTime</h1>
+            <p>El sistema integral que revolucionará la gestión de tu taller mecánico. Optimiza procesos, mejora la eficiencia y mantén a tus clientes siempre informados.</p>
+            <a href="#contacto" class="cta-button">Solicitar Demo</a>
+        </div>
+    </section>
+
+    <section id="funcionalidades" class="features fade-in">
+        <h2 class="section-title">Funcionalidades Principales</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <h3>Gestión de Tareas</h3>
+                <p>Crea y administra tareas completas que incluyen servicios específicos para cada vehículo. Asigna empleados y kits de herramientas de manera eficiente para optimizar el flujo de trabajo.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3>Administración de Empleados</h3>
+                <p>Controla en tiempo real la disponibilidad de tu personal. Visualiza qué empleados están libres, ocupados y en qué tareas específicas están trabajando actualmente.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔔</div>
+                <h3>Sistema de Notificaciones</h3>
+                <p>Recibe alertas instantáneas cuando se crea una nueva tarea, se completa un trabajo, o cuando los repuestos están por agotarse o se han terminado.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h3>Control de Entregas</h3>
+                <p>Registra automáticamente quién entregó cada vehículo y cuándo se realizó la entrega, manteniendo un historial completo para referencia futura.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Seguimiento Completo</h3>
+                <p>Monitorea el estado de todas las tareas y servicios. Visualiza cuáles están en progreso, completadas, pendientes y si se han generado reportes o incidencias.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📧</div>
+                <h3>Reportes y Comunicación</h3>
+                <p>Genera reportes automáticos y envía correos electrónicos a los clientes informando sobre el progreso de sus vehículos, brindando transparencia y confianza.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">👤</div>
+                <h3>Panel del Cliente</h3>
+                <p>Los clientes pueden acceder a su panel personalizado para consultar el avance de todos los servicios de su vehículo en tiempo real.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>Gestión de Inventario</h3>
+                <p>Asigna repuestos específicos a cada tarea y mantén un control preciso del inventario con alertas de stock bajo para evitar interrupciones en el servicio.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="beneficios" class="benefits fade-in">
+        <div class="benefits-container">
+            <div class="benefits-text">
+                <h2>¿Por qué elegir EfitTime?</h2>
+                <ul class="benefits-list">
+                    <li>Aumenta la eficiencia operativa de tu taller hasta un 40%</li>
+                    <li>Mejora la satisfacción del cliente con transparencia total</li>
+                    <li>Reduce errores y pérdida de información</li>
+                    <li>Optimiza la gestión de inventario y recursos</li>
+                    <li>Facilita la comunicación interna y externa</li>
+                    <li>Genera reportes detallados para toma de decisiones</li>
+                    <li>Interfaz intuitiva y fácil de usar</li>
+                    <li>Soporte técnico especializado</li>
+                </ul>
+                <a href="#contacto" class="cta-button">Conocer más</a>
+            </div>
+            <div class="benefits-image">
+                <div class="placeholder-img">
+                    Dashboard del Sistema<br>
+                    <small>(Aquí irán las capturas de tu sistema)</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="contact fade-in">
+        <div class="contact-container">
+            <h2>¿Listo para optimizar tu taller?</h2>
+            <p>Contacta con nosotros y descubre cómo EfitTime puede transformar la gestión de tu negocio.</p>
+            
+            <form class="contact-form">
+                <input type="text" placeholder="Nombre del taller" required>
+                <input type="email" placeholder="Correo electrónico" required>
+                <input type="tel" placeholder="Teléfono">
+                <textarea rows="4" placeholder="Cuéntanos sobre tu taller y tus necesidades"></textarea>
+                <button type="submit">Solicitar Información</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 EfitTime. Todos los derechos reservados. | Sistema integral para talleres mecánicos</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header background change on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(10, 24, 33, 0.98)';
+            } else {
+                header.style.background = 'rgba(10, 24, 33, 0.95)';
+            }
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Feature cards hover effect
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simple form validation
+            const inputs = this.querySelectorAll('input[required], textarea[required]');
+            let valid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    valid = false;
+                    input.style.borderColor = '#ef4444';
+                } else {
+                    input.style.borderColor = 'var(--accent-turquoise)';
+                }
+            });
+            
+            if (valid) {
+                // Here you would normally send the data to your server
+                alert('¡Gracias por tu interés! Te contactaremos pronto.');
+                this.reset();
+            } else {
+                alert('Por favor completa todos los campos requeridos.');
+            }
+        });
+
+        // Add floating animation to hero elements
+        setInterval(() => {
+            const heroContent = document.querySelector('.hero-content');
+            heroContent.style.transform = 'translateY(' + Math.sin(Date.now() / 2000) * 5 + 'px)';
+        }, 50);
+
+        // Dynamic typing effect for hero title
+        const heroTitle = document.querySelector('.hero h1');
+        const originalText = heroTitle.textContent;
+        heroTitle.textContent = '';
+        
+        let i = 0;
+        function typeWriter() {
+            if (i < originalText.length) {
+                heroTitle.textContent += originalText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 150);
+            }
+        }
+        
+        // Start typing effect after page load
+        window.addEventListener('load', () => {
+            setTimeout(typeWriter, 1000);
+        });
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EfitTime - Sistema integral de administración para talleres de mecánica automotriz. Gestiona tareas, empleados, inventario y clientes de manera eficiente.">
+    <meta name="keywords" content="sistema talleres mecánica, administración automotriz, gestión empleados taller, software mecánica, EfitTime">
+    <meta name="author" content="EfitTime">
+    <meta property="og:title" content="EfitTime - Sistema de Administración de Talleres">
+    <meta property="og:description" content="Optimiza tu taller mecánico con nuestro sistema integral de gestión. Controla tareas, empleados, inventario y mantén a tus clientes informados.">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Spanish">
+    <title>EfitTime - Sistema de Administración de Talleres Mecánicos</title>
+    
+    <!-- AOS Animation Library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #0a1821;
+            --secondary-dark: #1a2b3d;
+            --accent-turquoise: #14b8a6;
+            --light-turquoise: #5eead4;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --gradient: linear-gradient(135deg, #0a1821 0%, #1a2b3d 100%);
+            --shadow: 0 4px 20px rgba(20, 184, 166, 0.1);
+            --glow: 0 0 30px rgba(20, 184, 166, 0.3);
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--gradient);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-shape {
+            position: absolute;
+            background: rgba(20, 184, 166, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 10%;
+            animation-delay: -5s;
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            top: 80%;
+            left: 30%;
+            animation-delay: -10s;
+        }
+
+        .floating-shape:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            top: 30%;
+            right: 30%;
+            animation-delay: -15s;
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg); 
+                opacity: 0.3;
+            }
+            25% { 
+                transform: translateY(-50px) rotate(90deg); 
+                opacity: 0.1;
+            }
+            50% { 
+                transform: translateY(-100px) rotate(180deg); 
+                opacity: 0.3;
+            }
+            75% { 
+                transform: translateY(-50px) rotate(270deg); 
+                opacity: 0.1;
+            }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 24, 33, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-turquoise);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-turquoise);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover::after {
+            transform: scaleX(1);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            text-shadow: var(--glow);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-turquoise);
+            background: rgba(20, 184, 166, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section Enhanced */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(20, 184, 166, 0.1);
+            color: var(--accent-turquoise);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            animation: slideDown 1s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--accent-turquoise), var(--light-turquoise));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideUp 1s ease-out 0.3s both;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            animation: slideUp 1s ease-out 0.6s both;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            animation: slideUp 1s ease-out 0.9s both;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: slideUp 1s ease-out 1.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--accent-turquoise);
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
+            background: var(--light-turquoise);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: var(--accent-turquoise);
+            border: 2px solid var(--accent-turquoise);
+        }
+
+        .cta-secondary:hover {
+            background: var(--accent-turquoise);
+            color: var(--primary-dark);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 3rem 0;
+            background: rgba(26, 43, 61, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 1rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--accent-turquoise);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Features Section Enhanced */
+        .features {
+            padding: 6rem 0;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-turquoise);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .feature-section {
+            margin-bottom: 6rem;
+            padding: 0 2rem;
+        }
+
+        .feature-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .feature-content.reverse {
+            direction: rtl;
+        }
+
+        .feature-content.reverse > * {
+            direction: ltr;
+        }
+
+        .feature-text {
+            padding: 2rem;
+        }
+
+        .feature-text h3 {
+            font-size: 2rem;
+            color: var(--accent-turquoise);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-turquoise);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .feature-text p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .feature-list li {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-turquoise);
+            font-weight: bold;
+        }
+
+        .feature-image {
+            position: relative;
+        }
+
+        .system-preview {
+            width: 100%;
+            height: 400px;
+            background: rgba(20, 184, 166, 0.05);
+            border: 2px dashed var(--accent-turquoise);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-turquoise);
+            font-size: 1.2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .system-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .system-preview:hover::before {
+            left: 100%;
+        }
+
+        .system-preview:hover {
+            background: rgba(20, 184, 166, 0.1);
+            transform: scale(1.02);
+            box-shadow: var(--shadow);
+        }
+
+        .preview-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Benefits Section Enhanced */
+        .benefits {
+            background: rgba(26, 43, 61, 0.3);
+            padding: 6rem 0;
+        }
+
+        .benefits-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .benefit-card {
+            background: rgba(10, 24, 33, 0.5);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-turquoise);
+            box-shadow: var(--shadow);
+        }
+
+        .benefit-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .benefit-card h4 {
+            color: var(--accent-turquoise);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        /* Contact Section Enhanced */
+        .contact {
+            padding: 6rem 0;
+            background: var(--gradient);
+        }
+
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-turquoise);
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            background: rgba(26, 43, 61, 0.3);
+            padding: 3rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(20, 184, 166, 0.2);
+        }
+
+        .form-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            padding: 1.2rem;
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 10px;
+            background: rgba(26, 43, 61, 0.5);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-turquoise);
+            box-shadow: 0 0 15px rgba(20, 184, 166, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .contact-form button {
+            padding: 1.2rem 2rem;
+            background: var(--accent-turquoise);
+            color: var(--primary-dark);
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .contact-form button:hover {
+            background: var(--light-turquoise);
+            transform: translateY(-2px);
+            box-shadow: var(--glow);
+        }
+
+        /* Footer Enhanced */
+        footer {
+            background: var(--primary-dark);
+            padding: 3rem 0 1rem;
+            border-top: 1px solid rgba(20, 184, 166, 0.2);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--accent-turquoise);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            line-height: 1.6;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-turquoise);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(20, 184, 166, 0.1);
+            color: var(--text-secondary);
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--accent-turquoise);
+            color: var(--primary-dark);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .feature-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .feature-content.reverse {
+                direction: ltr;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        /* Loading animation */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(20, 184, 166, 0.3);
+            border-top: 3px solid var(--accent-turquoise);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+    </div>
+
+    <header>
+        <nav>
+            <a href="#" class="logo">EfitTime</a>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#funcionalidades">Funcionalidades</a></li>
+                <li><a href="#beneficios">Beneficios</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🚀 Revoluciona tu taller mecánico</div>
+            <h1>EfitTime</h1>
+            <div class="subtitle">Sistema Integral de Gestión</div>
+            <p>Optimiza procesos, mejora la eficiencia y mantén a tus clientes siempre informados con la plataforma más completa para talleres mecánicos.</p>
+            <div class="hero-buttons">
+                <a href="#contacto" class="cta-button">Solicitar Demo Gratuita</a>
+                <a href="#funcionalidades" class="cta-button cta-secondary">Ver Funcionalidades</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats" data-aos="fade-up">
+        <div class="stats-container">
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+                <span class="stat-number" data-count="40">0</span>
+                <span class="stat-label">% Aumento en Eficiencia</span>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                <span class="stat-number" data-count="95">0</span>
+                <span class="stat-label">% Satisfacción del Cliente</span>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                <span class="stat-number" data-count="24">0</span>
+                <span class="stat-label">Horas de Soporte</span>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="400">
+                <span class="stat-number" data-count="100">0</span>
+                <span class="stat-label">+ Talleres Activos</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="funcionalidades" class="features">
+        <div data-aos="fade-up">
+            <h2 class="section-title">Funcionalidades Principales</h2>
+            <p class="section-subtitle">Descubre cómo cada módulo de EfitTime transformará la operación de tu taller mecánico</p>
+        </div>
+
+        <!-- Gestión de Tareas -->
+        <div class="feature-section" data-aos="fade-up" data-aos-delay="100">
+            <div class="feature-content">
+                <div class="feature-text">
+                    <h3><span class="feature-icon">🔧</span>Gestión de Tareas Inteligente</h3>
+                    <p>Crea y administra tareas completas con un sistema visual intuitivo que te permite controlar cada aspecto del trabajo en tu taller.</p>
+                    <ul class="feature-list">
+                        <li>Asignación automática de empleados según disponibilidad</li>
+                        <li>Control de kits de herramientas por tarea</li>
+                        <li>Cronograma visual de actividades</li>
+                        <li>Priorización inteligente de trabajos</li>
+                        <li>Seguimiento en tiempo real del progreso</li>
+                    </ul>
+                </div>
+                <div class="feature-image">
+                    <div class="system-preview">
+                        <div class="preview-title">📋 Panel de Gestión de Tareas</div>
+                        <div class="preview-subtitle">Aquí irá la captura del módulo de tareas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Administración de Empleados -->
+        <div class="feature-section" data-aos="fade-up" data-aos-delay="200">
+            <div class="feature-content reverse">
+                <div class="feature-text">
+                    <h3><span class="feature-icon">👥</span>Control Total de Personal</h3>
+                    <p>Visualiza en tiempo real el estado de tu equipo de trabajo con un dashboard completo que optimiza la distribución de recursos humanos.</p>
+                    <ul class="feature-list">
+                        <li>Dashboard de disponibilidad en tiempo real</li>
+                        <li>Historial de productividad por empleado</li>
+                        <li>Gestión de horarios y turnos</li>
+                        <li>Control de especialidades técnicas</li>
+                        <li>Evaluación de rendimiento automática</li>
+                    </ul>
+                </div>
+                <div class="feature-image">
+                    <div class="system-preview">
+                        <div class="preview-title">👤 Dashboard de Empleados</div>
+                        <div class="preview-subtitle">Aquí irá la captura del módulo de empleados</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sistema de Notificaciones -->
+        <div class="feature-section" data-aos="fade-up" data-aos-delay="300">
+            <div class="feature-content">
+                <div class="feature-text">
+                    <h3><span class="feature-icon">🔔</span>Notificaciones Inteligentes</h3>
+                    <p>Mantente siempre informado con un sistema de alertas personalizables que te notifica sobre eventos críticos en tu taller.</p>
+                    <ul class="feature-list">
+                        <li>Alertas de tareas nuevas y completadas</li>
+                        <li>Notificaciones de stock bajo</li>
+                        <li>Recordatorios de mantenimiento</li>
+                        <li>Alertas de retrasos en trabajos</li>
+                        <li>Notificaciones push en dispositivos móviles</li>
+                    </ul>
+                </div>
+                <div class="feature-image">
+                    <div class="system-preview">
+                        <div class="preview-title">🔔 Centro de Notificaciones</div>
+                        <div class="preview-subtitle">Aquí irá la captura del módulo de notificaciones</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gestión de Inventario -->
+        <div class="feature-section" data-aos="fade-up" data-aos-delay="400">
+            <div class="feature-content reverse">
+                <div class="feature-text">
+                    <h3><span class="feature-icon">📦</span>Inventario Automatizado</h3>
+                    <p>Controla tu inventario con precisión absoluta mediante un sistema inteligente que previene desabastos y optimiza tus compras.</p>
+                    <ul class="feature-list">
+                        <li>Asignación automática de repuestos a tareas</li>
+                        <li>Control de stock en tiempo real</li>
+                        <li>Alertas de reposición inteligente</li>
+                        <li>Gestión de proveedores integrada</li>
+                        <li>Códigos de barras y QR para agilizar procesos</li>
+                    </ul>
+                </div>
+                <div class="feature-image">
+                    <div class="system-preview">
+                        <div class="preview-title">📦 Módulo de Inventario</div>
+                        <div class="preview-subtitle">Aquí irá la captura del módulo de inventario</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel del Cliente -->
+        <div class="feature-section" data-aos="fade-up" data-aos-delay="500">
+            <div class="feature-content">
+                <div class="feature-text">
+                    <h3><span class="feature-icon">👤</span>Portal del Cliente</h3>
+                    <p>Brinda transparencia total a tus clientes con un portal personalizado donde pueden seguir el progreso de sus vehículos en tiempo real.</p>
+                    <ul class="feature-list">
+                        <li>Seguimiento en tiempo real del vehículo</li>
+                        <li>Historial completo de servicios</li>
+                        <li>Notificaciones automáticas por email</li>
+                        <li>Galería de fotos del proceso</li>
+                        <li>Facturación y pagos online</li>
+                    </ul>
+                </div>
+                <div class="feature-image">
+                    <div class="system-preview">
+                        <div class="preview-title">🌐 Portal del Cliente</div>
+                        <div class="preview-subtitle">Aquí irá la captura del portal del cliente</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reportes y Analytics -->
+        <div class="feature-section" data-aos="fade-up" data-aos-delay="600">
+            <div class="feature-content reverse">
+                <div class="feature-text">
+                    <h3><span class="feature-icon">📊</span>Reportes y Analytics</h3>
+                    <p>Toma decisiones basadas en datos con reportes detallados y analytics que te muestran el rendimiento real de tu taller.</p>
+                    <ul class="feature-list">
+                        <li>Dashboard ejecutivo con KPIs clave</li>
+                        <li>Reportes de productividad por empleado</li>
+                        <li>Análisis de rentabilidad por servicio</li>
+                        <li>Predicción de demanda de repuestos</li>
+                        <li>Exportación a Excel y PDF</li>
+                    </ul>
+                </div>
+                <div class="feature-image">
+                    <div class="system-preview">
+                        <div class="preview-title">📊 Dashboard de Analytics</div>
+                        <div class="preview-subtitle">Aquí irá la captura del módulo de reportes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="beneficios" class="benefits">
+        <div class="benefits-container" data-aos="fade-up">
+            <h2 class="section-title">¿Por qué elegir EfitTime?</h2>
+            <p class="section-subtitle">Más de 100 talleres ya confían en nosotros para optimizar sus operaciones</p>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card" data-aos="fade-up" data-aos-delay="100">
+                    <span class="icon">⚡</span>
+                    <h4>Eficiencia Máxima</h4>
+                    <p>Aumenta la productividad de tu taller hasta un 40% con procesos automatizados y flujos de trabajo optimizados.</p>
+                </div>
+
+                <div class="benefit-card" data-aos="fade-up" data-aos-delay="200">
+                    <span class="icon">😊</span>
+                    <h4>Clientes Satisfechos</h4>
+                    <p>Mejora la experiencia del cliente con transparencia total y comunicación constante sobre el progreso de su vehículo.</p>
+                </div>
+
+                <div class="benefit-card" data-aos="fade-up" data-aos-delay="300">
+                    <span class="icon">💰</span>
+                    <h4>Reducción de Costos</h4>
+                    <p>Minimiza errores, reduce desperdicios y optimiza el uso de recursos con control inteligente de inventario.</p>
+                </div>
+
+                <div class="benefit-card" data-aos="fade-up" data-aos-delay="400">
+                    <span class="icon">📱</span>
+                    <h4>Acceso Multiplataforma</h4>
+                    <p>Gestiona tu taller desde cualquier dispositivo: computadora, tablet o smartphone, siempre conectado.</p>
+                </div>
+
+                <div class="benefit-card" data-aos="fade-up" data-aos-delay="500">
+                    <span class="icon">🛡️</span>
+                    <h4>Seguridad Garantizada</h4>
+                    <p>Protección de datos de nivel empresarial con backups automáticos y encriptación de extremo a extremo.</p>
+                </div>
+
+                <div class="benefit-card" data-aos="fade-up" data-aos-delay="600">
+                    <span class="icon">🎯</span>
+                    <h4>Soporte Especializado</h4>
+                    <p>Equipo de soporte técnico 24/7 especializado en talleres mecánicos para resolver cualquier consulta.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="contact">
+        <div class="contact-container" data-aos="fade-up">
+            <h2>¿Listo para revolucionar tu taller?</h2>
+            <p>Únete a más de 100 talleres que ya optimizaron sus operaciones con EfitTime. Solicita tu demo gratuita y descubre todo lo que podemos hacer por tu negocio.</p>
+            
+            <form class="contact-form" data-aos="fade-up" data-aos-delay="200">
+                <div class="form-group">
+                    <input type="text" placeholder="Nombre del propietario" required>
+                    <input type="text" placeholder="Nombre del taller" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Correo electrónico" required>
+                    <input type="tel" placeholder="Teléfono">
+                </div>
+                <input type="text" placeholder="Ciudad">
+                <textarea rows="4" placeholder="Cuéntanos sobre tu taller: ¿Cuántos empleados tienes? ¿Qué servicios ofreces? ¿Cuáles son tus principales desafíos?"></textarea>
+                <button type="submit">Solicitar Demo Gratuita 🚀</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>EfitTime</h4>
+                <p>El sistema más completo para la gestión integral de talleres mecánicos. Optimiza, controla y crece con la tecnología más avanzada.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Funcionalidades</h4>
+                <p><a href="#funcionalidades">Gestión de Tareas</a></p>
+                <p><a href="#funcionalidades">Control de Personal</a></p>
+                <p><a href="#funcionalidades">Inventario Inteligente</a></p>
+                <p><a href="#funcionalidades">Portal del Cliente</a></p>
+            </div>
+            <div class="footer-section">
+                <h4>Soporte</h4>
+                <p><a href="#">Centro de Ayuda</a></p>
+                <p><a href="#">Documentación</a></p>
+                <p><a href="#">Tutoriales</a></p>
+                <p><a href="#contacto">Contacto</a></p>
+            </div>
+            <div class="footer-section">
+                <h4>Empresa</h4>
+                <p><a href="#">Sobre Nosotros</a></p>
+                <p><a href="#">Blog</a></p>
+                <p><a href="#">Casos de Éxito</a></p>
+                <p><a href="#">Términos y Condiciones</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 EfitTime. Todos los derechos reservados. | Sistema integral para talleres mecánicos</p>
+        </div>
+    </footer>
+
+    <!-- Scroll to top button -->
+    <div class="scroll-top" id="scrollTop">
+        ↑
+    </div>
+
+    <!-- AOS Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
+        });
+
+        // Loading screen
+        window.addEventListener('load', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+            }, 1000);
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header background change on scroll
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > 100) {
+                header.style.background = 'rgba(10, 24, 33, 0.98)';
+                header.style.boxShadow = '0 2px 20px rgba(20, 184, 166, 0.1)';
+            } else {
+                header.style.background = 'rgba(10, 24, 33, 0.95)';
+                header.style.boxShadow = 'none';
+            }
+
+            // Show/hide scroll to top button
+            const scrollTopButton = document.getElementById('scrollTop');
+            if (scrollTop > 500) {
+                scrollTopButton.classList.add('show');
+            } else {
+                scrollTopButton.classList.remove('show');
+            }
+
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        });
+
+        // Scroll to top functionality
+        document.getElementById('scrollTop').addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Counter animation for stats
+        function animateCounter(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const currentValue = Math.floor(progress * (end - start) + start);
+                element.textContent = currentValue + (element.getAttribute('data-count').includes('+') ? '+' : '');
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Trigger counter animation when stats section is visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('[data-count]');
+                    counters.forEach(counter => {
+                        const target = parseInt(counter.getAttribute('data-count'));
+                        animateCounter(counter, 0, target, 2000);
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statsObserver.observe(document.querySelector('.stats'));
+
+        // Enhanced form submission with validation
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const inputs = this.querySelectorAll('input[required], textarea[required]');
+            let valid = true;
+            let errors = [];
+            
+            inputs.forEach(input => {
+                const value = input.value.trim();
+                
+                // Reset styles
+                input.style.borderColor = 'rgba(20, 184, 166, 0.3)';
+                
+                if (!value) {
+                    valid = false;
+                    input.style.borderColor = '#ef4444';
+                    errors.push(`El campo ${input.placeholder} es requerido`);
+                } else {
+                    // Email validation
+                    if (input.type === 'email') {
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!emailRegex.test(value)) {
+                            valid = false;
+                            input.style.borderColor = '#ef4444';
+                            errors.push('Por favor ingresa un email válido');
+                        }
+                    }
+                    
+                    // Phone validation
+                    if (input.type === 'tel' && value) {
+                        const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+                        if (!phoneRegex.test(value)) {
+                            valid = false;
+                            input.style.borderColor = '#ef4444';
+                            errors.push('Por favor ingresa un teléfono válido');
+                        }
+                    }
+                }
+            });
+            
+            if (valid) {
+                // Simulate form submission
+                const submitButton = this.querySelector('button[type="submit"]');
+                const originalText = submitButton.textContent;
+                
+                submitButton.textContent = 'Enviando...';
+                submitButton.disabled = true;
+                
+                setTimeout(() => {
+                    alert('¡Gracias por tu interés en EfitTime! Nuestro equipo se pondrá en contacto contigo en las próximas 24 horas para agendar tu demo gratuita.');
+                    this.reset();
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                }, 2000);
+            } else {
+                alert('Por favor corrige los siguientes errores:\n\n' + errors.join('\n'));
+            }
+        });
+
+        // System preview hover effects
+        document.querySelectorAll('.system-preview').forEach(preview => {
+            preview.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05) rotateY(5deg)';
+                this.style.boxShadow = '0 20px 40px rgba(20, 184, 166, 0.2)';
+            });
+            
+            preview.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1) rotateY(0deg)';
+                this.style.boxShadow = 'none';
+            });
+        });
+
+        // Parallax effect for floating shapes
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const shapes = document.querySelectorAll('.floating-shape');
+            
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 0.5;
+                shape.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Feature cards entrance animation
+        const featureObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.6s ease';
+            featureObserver.observe(section);
+        });
+
+        // Dynamic background color change based on scroll position
+        window.addEventListener('scroll', () => {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            const hue = 180 + (scrollPercent * 0.5); // Subtle hue shift
+            document.documentElement.style.setProperty('--accent-turquoise', `hsl(${hue}, 65%, 55%)`);
+        });
+
+        // Add keyboard navigation support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                // Close any open modals or reset focus
+                document.activeElement.blur();
+            }
+        });
+
+        // Optimize animations for performance
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (prefersReducedMotion.matches) {
+            // Disable animations for users who prefer reduced motion
+            const style = document.createElement('style');
+            style.innerHTML = `
+                *, *::before, *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    </script>
+</body>
+</html>
