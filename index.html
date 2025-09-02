@@ -676,7 +676,6 @@
     <meta name="language" content="Spanish">
     <title>EfitTime - Sistema de Administración de Talleres Mecánicos</title>
     
-    <!-- AOS Animation Library -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     
     <style>
@@ -1430,15 +1429,187 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Enhanced Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        /* Grid pattern background */
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(20, 184, 166, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(20, 184, 166, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Floating geometric shapes */
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+            filter: blur(1px);
+        }
+
+        .floating-shape.triangle {
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-bottom: 52px solid rgba(20, 184, 166, 0.1);
+            border-radius: 0;
+        }
+
+        .floating-shape.square {
+            border-radius: 15%;
+            background: rgba(94, 234, 212, 0.08);
+        }
+
+        .floating-shape.circle {
+            background: rgba(20, 184, 166, 0.12);
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+            background: rgba(20, 184, 166, 0.08);
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 15%;
+            animation-delay: -5s;
+        }
+
+        .floating-shape:nth-child(4) {
+            top: 80%;
+            left: 25%;
+            animation-delay: -10s;
+        }
+
+        .floating-shape:nth-child(5) {
+            width: 100px;
+            height: 100px;
+            top: 15%;
+            right: 30%;
+            animation-delay: -15s;
+            background: rgba(94, 234, 212, 0.06);
+        }
+
+        .floating-shape:nth-child(6) {
+            width: 60px;
+            height: 60px;
+            top: 40%;
+            left: 70%;
+            animation-delay: -8s;
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg) scale(1); 
+                opacity: 0.4;
+            }
+            25% { 
+                transform: translateY(-80px) rotate(90deg) scale(1.1); 
+                opacity: 0.2;
+            }
+            50% { 
+                transform: translateY(-160px) rotate(180deg) scale(0.9); 
+                opacity: 0.6;
+            }
+            75% { 
+                transform: translateY(-80px) rotate(270deg) scale(1.05); 
+                opacity: 0.3;
+            }
+        }
+
+        /* Gradient orbs */
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            animation: orbitFloat 25s infinite ease-in-out;
+        }
+
+        .gradient-orb:nth-child(7) {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.15) 0%, transparent 70%);
+            top: -100px;
+            right: -100px;
+            animation-delay: -5s;
+        }
+
+        .gradient-orb:nth-child(8) {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(94, 234, 212, 0.1) 0%, transparent 70%);
+            bottom: -50px;
+            left: -50px;
+            animation-delay: -12s;
+        }
+
+        @keyframes orbitFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 30px) scale(0.9); }
+        }
+
+        .system-preview {
+            width: 100%;
+            height: 400px;
+            background: rgba(20, 184, 166, 0.05);
+            border: 2px solid rgba(20, 184, 166, 0.3);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-turquoise);
+            font-size: 1.2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .system-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 13px;
+            transition: transform 0.3s ease;
+        }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="spinner"></div>
     </div>
 
-    <!-- Animated Background -->
     <div class="animated-bg">
         <div class="floating-shape"></div>
         <div class="floating-shape"></div>
@@ -1470,8 +1641,16 @@
             </div>
         </div>
     </section>
-
-    <!-- Stats Section -->
+    <div class="animated-bg">
+        <div class="grid-pattern"></div>
+        <div class="floating-shape circle"></div>
+        <div class="floating-shape square"></div>
+        <div class="floating-shape triangle"></div>
+        <div class="floating-shape circle"></div>
+        <div class="floating-shape square"></div>
+        <div class="gradient-orb"></div>
+        <div class="gradient-orb"></div>
+    </div>
     <section class="stats" data-aos="fade-up">
         <div class="stats-container">
             <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
@@ -1486,10 +1665,6 @@
                 <span class="stat-number" data-count="24">0</span>
                 <span class="stat-label">Horas de Soporte</span>
             </div>
-            <div class="stat-item" data-aos="fade-up" data-aos-delay="400">
-                <span class="stat-number" data-count="100">0</span>
-                <span class="stat-label">+ Talleres Activos</span>
-            </div>
         </div>
     </section>
 
@@ -1499,7 +1674,6 @@
             <p class="section-subtitle">Descubre cómo cada módulo de EfitTime transformará la operación de tu taller mecánico</p>
         </div>
 
-        <!-- Gestión de Tareas -->
         <div class="feature-section" data-aos="fade-up" data-aos-delay="100">
             <div class="feature-content">
                 <div class="feature-text">
@@ -1515,14 +1689,12 @@
                 </div>
                 <div class="feature-image">
                     <div class="system-preview">
-                        <div class="preview-title">📋 Panel de Gestión de Tareas</div>
-                        <div class="preview-subtitle">Aquí irá la captura del módulo de tareas</div>
+                        <img src="img/admin_tareas.png" alt="img de panel de tareas">
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Administración de Empleados -->
         <div class="feature-section" data-aos="fade-up" data-aos-delay="200">
             <div class="feature-content reverse">
                 <div class="feature-text">
@@ -1531,21 +1703,17 @@
                     <ul class="feature-list">
                         <li>Dashboard de disponibilidad en tiempo real</li>
                         <li>Historial de productividad por empleado</li>
-                        <li>Gestión de horarios y turnos</li>
                         <li>Control de especialidades técnicas</li>
-                        <li>Evaluación de rendimiento automática</li>
                     </ul>
                 </div>
                 <div class="feature-image">
                     <div class="system-preview">
-                        <div class="preview-title">👤 Dashboard de Empleados</div>
-                        <div class="preview-subtitle">Aquí irá la captura del módulo de empleados</div>
+                        <img src="img/admin_empleados.png" alt="img de panel de tareas">
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Sistema de Notificaciones -->
         <div class="feature-section" data-aos="fade-up" data-aos-delay="300">
             <div class="feature-content">
                 <div class="feature-text">
@@ -1555,20 +1723,17 @@
                         <li>Alertas de tareas nuevas y completadas</li>
                         <li>Notificaciones de stock bajo</li>
                         <li>Recordatorios de mantenimiento</li>
-                        <li>Alertas de retrasos en trabajos</li>
-                        <li>Notificaciones push en dispositivos móviles</li>
+                        <li>Notificaciones de entrega de vehiculos</li>
                     </ul>
                 </div>
                 <div class="feature-image">
                     <div class="system-preview">
-                        <div class="preview-title">🔔 Centro de Notificaciones</div>
-                        <div class="preview-subtitle">Aquí irá la captura del módulo de notificaciones</div>
+                        <img src="img/admin_noti.png" alt="img de panel de tareas">
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Gestión de Inventario -->
         <div class="feature-section" data-aos="fade-up" data-aos-delay="400">
             <div class="feature-content reverse">
                 <div class="feature-text">
@@ -1578,20 +1743,16 @@
                         <li>Asignación automática de repuestos a tareas</li>
                         <li>Control de stock en tiempo real</li>
                         <li>Alertas de reposición inteligente</li>
-                        <li>Gestión de proveedores integrada</li>
-                        <li>Códigos de barras y QR para agilizar procesos</li>
                     </ul>
                 </div>
                 <div class="feature-image">
                     <div class="system-preview">
-                        <div class="preview-title">📦 Módulo de Inventario</div>
-                        <div class="preview-subtitle">Aquí irá la captura del módulo de inventario</div>
+                        <img src="img/admin_repuestos.png" alt="">
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Panel del Cliente -->
         <div class="feature-section" data-aos="fade-up" data-aos-delay="500">
             <div class="feature-content">
                 <div class="feature-text">
@@ -1601,37 +1762,11 @@
                         <li>Seguimiento en tiempo real del vehículo</li>
                         <li>Historial completo de servicios</li>
                         <li>Notificaciones automáticas por email</li>
-                        <li>Galería de fotos del proceso</li>
-                        <li>Facturación y pagos online</li>
                     </ul>
                 </div>
                 <div class="feature-image">
                     <div class="system-preview">
-                        <div class="preview-title">🌐 Portal del Cliente</div>
-                        <div class="preview-subtitle">Aquí irá la captura del portal del cliente</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Reportes y Analytics -->
-        <div class="feature-section" data-aos="fade-up" data-aos-delay="600">
-            <div class="feature-content reverse">
-                <div class="feature-text">
-                    <h3><span class="feature-icon">📊</span>Reportes y Analytics</h3>
-                    <p>Toma decisiones basadas en datos con reportes detallados y analytics que te muestran el rendimiento real de tu taller.</p>
-                    <ul class="feature-list">
-                        <li>Dashboard ejecutivo con KPIs clave</li>
-                        <li>Reportes de productividad por empleado</li>
-                        <li>Análisis de rentabilidad por servicio</li>
-                        <li>Predicción de demanda de repuestos</li>
-                        <li>Exportación a Excel y PDF</li>
-                    </ul>
-                </div>
-                <div class="feature-image">
-                    <div class="system-preview">
-                        <div class="preview-title">📊 Dashboard de Analytics</div>
-                        <div class="preview-subtitle">Aquí irá la captura del módulo de reportes</div>
+                        <img src="img/cliente_portal.png" alt="">
                     </div>
                 </div>
             </div>
@@ -1737,12 +1872,10 @@
         </div>
     </footer>
 
-    <!-- Scroll to top button -->
     <div class="scroll-top" id="scrollTop">
         ↑
     </div>
 
-    <!-- AOS Animation Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 
     <script>
@@ -1970,6 +2103,17 @@
             `;
             document.head.appendChild(style);
         }
+
+        // Parallax effect for floating shapes
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const shapes = document.querySelectorAll('.floating-shape, .gradient-orb');
+    
+    shapes.forEach((shape, index) => {
+        const speed = (index + 1) * 0.3;
+        shape.style.transform = `translateY(${scrolled * speed}px)`;
+    });
+});
     </script>
 </body>
 </html>
